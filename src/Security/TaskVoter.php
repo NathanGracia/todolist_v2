@@ -29,16 +29,15 @@ class TaskVoter extends Voter
 
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
+    
+
         $user = $token->getUser();
-
-        if (!$user instanceof User) {
-            // the user must be logged in; if not, deny access
-            return false;
-        }
-
+     
         // you know $subject is a Task object, thanks to `supports()`
         /** @var Task $task */
         $task = $subject;
+
+     
 
         switch ($attribute) {
             case self::VIEW:
@@ -50,20 +49,18 @@ class TaskVoter extends Voter
         throw new \LogicException('This code should not be reached!');
     }
 
-    private function canView(Task $task, User $user): bool
+    private function canView(Task $task, $user): bool
     {
-        // if they can edit, they can view
-        if ($this->canEdit($task, $user)) {
+        // if they can edit, they can view || if task has no user, they can view anyway
+        if ($this->canEdit($task, $user) || empty($task->getUser())) {
             return true;
         }
-
-       
         return false;
     }
 
-    private function canEdit(Task $task, User $user): bool
-    {
-      
-        return $user === $task->getUser();
+    private function canEdit(Task $task, $user): bool
+    {    
+        //must be author, even is there is no author on the task
+        return $user === $task->getUser() && !empty($task->getUser());
     }
 }

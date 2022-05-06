@@ -50,7 +50,7 @@ class TaskController extends AbstractController
      * @Route("/{id}", name="task_show", methods={"GET"})
      */
     public function show(Task $task): Response
-    {
+    {  
         // check for "view" access: calls all voters
         $this->denyAccessUnlessGranted('view', $task);
         return $this->render('task/show.html.twig', [
@@ -63,6 +63,7 @@ class TaskController extends AbstractController
      */
     public function edit(Request $request, Task $task, TaskRepository $taskRepository): Response
     {
+        $this->denyAccessUnlessGranted('edit', $task);
         $form = $this->createForm(TaskType::class, $task);
         $form->handleRequest($request);
 
