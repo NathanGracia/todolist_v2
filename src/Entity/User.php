@@ -20,35 +20,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
-    private $email;
+    private ?string $email;
 
     /**
      * @ORM\Column(type="json")
      */
-    private $roles = [];
+    private ?array $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
-    private $password;
+    private ?string $password;
 
     /**
      * @ORM\Column(type="string", length=25)
      */
-    private $username;
+    private ?string $username;
 
-    private $plainPassword;
+    private ?string $plainPassword;
 
     /**
      * @ORM\OneToMany(targetEntity=Task::class, mappedBy="user")
      */
-    private $tasks;
+    private ?Task $tasks;
 
     public function __construct()
     {

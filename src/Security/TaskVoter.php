@@ -11,6 +11,7 @@ class TaskVoter extends Voter
     // these strings are just invented: you can use anything
     const VIEW = 'view';
     const EDIT = 'edit';
+    const CREATE = 'create';
 
     protected function supports(string $attribute, $subject): bool
     {
@@ -32,7 +33,7 @@ class TaskVoter extends Voter
     
 
         $user = $token->getUser();
-     
+        
         // you know $subject is a Task object, thanks to `supports()`
         /** @var Task $task */
         $task = $subject;
@@ -44,6 +45,8 @@ class TaskVoter extends Voter
                 return $this->canView($task, $user);
             case self::EDIT:
                 return $this->canEdit($task, $user);
+            case self::CREATE:
+                return !empty($user);
         }
 
         throw new \LogicException('This code should not be reached!');
@@ -63,4 +66,6 @@ class TaskVoter extends Voter
         //must be author, even is there is no author on the task
         return $user === $task->getUser() && !empty($task->getUser());
     }
+    
+  
 }
