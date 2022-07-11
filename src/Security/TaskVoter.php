@@ -12,6 +12,7 @@ class TaskVoter extends Voter
     const VIEW = 'view';
     const EDIT = 'edit';
     const CREATE = 'create';
+    const DELETE = 'delete';
 
     protected function supports(string $attribute, $subject): bool
     {
@@ -45,6 +46,8 @@ class TaskVoter extends Voter
                 return $this->canView($task, $user);
             case self::EDIT:
                 return $this->canEdit($task, $user);
+            case self::DELETE:
+                return $this->canDelete($task, $user);
             case self::CREATE:
                 return !empty($user);
         }
@@ -66,6 +69,12 @@ class TaskVoter extends Voter
         //must be author, even is there is no author on the task
         return $user === $task->getUser() && !empty($task->getUser());
     }
+    private function canDelete(Task $task, $user): bool
+    {    
+        if ($this->canEdit($task, $user) || empty($task->getUser())) {
+            return true;
+        }
+        return false;   }
     
   
 }

@@ -12,6 +12,7 @@ use ReflectionClass;
 use ReflectionNamedType;
 use ReflectionUnionType;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use App\Entity\User;
 
 class EntityGetSetTest extends WebTestCase
 {
@@ -20,6 +21,12 @@ class EntityGetSetTest extends WebTestCase
      */
     private static $entities;
 
+    private static $ignore = [
+        User::class => [
+            "roles" => ['get']
+        ]
+    ];
+    
     public static function setUpBeforeClass(): void
     {
         self::bootKernel();
@@ -42,6 +49,9 @@ class EntityGetSetTest extends WebTestCase
             foreach ($entityReflection->getProperties() as $reflectionProperty) {
                 $propertyValue = $this->getFakeValue($reflectionProperty->getType());
                 $propertyName = $reflectionProperty->getName();
+                if( isset(self::$ignore[$entityFullName]) && isset(self::$ignore[$entityFullName][$propertyName]) && in_array("get", self::$ignore[$entityFullName][$propertyName], true)){
+                    continue;
+                }
 
                 $reflectionProperty->setValue($entity, $propertyValue);
 
@@ -66,7 +76,9 @@ class EntityGetSetTest extends WebTestCase
             foreach ($entityReflection->getProperties() as $reflectionProperty) {
                 $propertyValue = $this->getFakeValue($reflectionProperty->getType());
                 $propertyName = $reflectionProperty->getName();
-
+                if( isset(self::$ignore[$entityFullName]) && isset(self::$ignore[$entityFullName][$propertyName]) && in_array("set", self::$ignore[$entityFullName][$propertyName], true)){
+                    continue;
+                }
                 $setterName = 'set' . ucfirst($propertyName);
 
                 if (!$entityReflection->hasMethod($setterName)) {
@@ -103,6 +115,9 @@ class EntityGetSetTest extends WebTestCase
                 break;
             case 'DateTimeImmutable':
                 $paramValue =  new \DateTimeImmutable('2000-01-01');
+                break;
+            case 'array':
+                $paramValue =  [];
                 break;
             default :
                 $paramValue =  new $typeName();

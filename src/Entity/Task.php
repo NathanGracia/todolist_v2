@@ -41,7 +41,7 @@ class Task
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tasks")
      */
-    private User $user;
+    private ?User $user = null;
 
     public function getId(): ?int
     {
