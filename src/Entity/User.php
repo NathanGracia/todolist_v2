@@ -20,12 +20,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private ?int $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
-    private ?string $email;
+    private ?string $email = null;
 
     /**
      * @ORM\Column(type="json")
@@ -36,19 +36,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
-    private ?string $password;
+    private ?string $password = null;
 
     /**
      * @ORM\Column(type="string", length=25)
      */
-    private ?string $username;
+    private ?string $username = null;
 
-    private ?string $plainPassword;
+    private ?string $plainPassword = null;
 
     /**
      * @ORM\OneToMany(targetEntity=Task::class, mappedBy="user")
      */
-    private ?ArrayCollection $tasks;
+    private ?Collection $tasks;
 
     public function __construct()
     {
@@ -87,7 +87,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return (string) $this->username;
     }
 
     /**

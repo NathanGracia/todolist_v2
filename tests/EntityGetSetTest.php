@@ -119,6 +119,9 @@ class EntityGetSetTest extends WebTestCase
             case 'array':
                 $paramValue =  [];
                 break;
+            case Collection::class:
+                $paramValue =  new ArrayCollection();
+                break;
             default :
                 $paramValue =  new $typeName();
                 break;

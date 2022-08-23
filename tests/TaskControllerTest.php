@@ -28,11 +28,11 @@ class TaskControllerTest extends WebTestCase
     {
        
         $client = static::createClient();
-        $crawler = $client->request('GET', '/task/22');
+        $crawler = $client->request('GET', '/task/2');
 
         $this->assertResponseIsSuccessful();
     }
-   /*  public function testAccessViewPrivateTask(): void
+    public function testAccessViewPrivateTask(): void
     {
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
@@ -42,7 +42,7 @@ class TaskControllerTest extends WebTestCase
 
         // simulate $testUser being logged in
         $client->loginUser($testUser);
-        $crawler = $client->request('GET', '/task/21');
+        $crawler = $client->request('GET', '/task/1');
 
         $this->assertResponseIsSuccessful();
     }
@@ -55,7 +55,7 @@ class TaskControllerTest extends WebTestCase
 
         // simulate $testUser being logged in
         $client->loginUser($testUser);
-        $crawler = $client->request('GET', '/task/21/edit');
+        $crawler = $client->request('GET', '/task/1/edit');
         
         $this->assertResponseIsSuccessful();
     }
@@ -68,10 +68,11 @@ class TaskControllerTest extends WebTestCase
 
         // simulate $testUser being logged in
         $client->loginUser($testUser);
-        $crawler = $client->request('GET', '/task/21/delete');
+        $crawler = $client->request('GET', '/task/1/delete');
         
         $this->assertResponseIsSuccessful();
-    }
+        //todo fix route
+    } 
     public function testAccessDeniedDeleteAnoTask(){
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
@@ -81,9 +82,9 @@ class TaskControllerTest extends WebTestCase
 
         // simulate $testUser being logged in
         $client->loginUser($testUser);
-        $crawler = $client->request('GET', '/task/22/edit');
+        $crawler = $client->request('GET', '/task/2/edit');
         
-        $this->assertResponseIsSuccessful();
-    } */
+        $this->assertResponseStatusCodeSame(403);
+    }
    
 }
