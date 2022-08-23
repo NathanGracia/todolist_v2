@@ -17,7 +17,7 @@ class TaskVoter extends Voter
     protected function supports(string $attribute, $subject): bool
     {
         // if the attribute isn't one we support, return false
-        if (!in_array($attribute, [self::VIEW, self::EDIT])) {
+        if (!in_array($attribute, [self::VIEW, self::EDIT, self::CREATE, self::DELETE])) {
             return false;
         }
 
@@ -70,7 +70,7 @@ class TaskVoter extends Voter
         return $user === $task->getUser() && !empty($task->getUser());
     }
     private function canDelete(Task $task, $user): bool
-    {    
+    {   
         
         if ($this->canEdit($task, $user) ) {
             return true;
