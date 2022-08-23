@@ -71,6 +71,7 @@ class TaskControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/task/1/delete');
         $client->followRedirect();
         $this->assertResponseIsSuccessful();
+        
 
     } 
     public function testAccessDeniedDeleteAnoTask(){

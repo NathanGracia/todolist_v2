@@ -37,9 +37,6 @@ class UserRepository extends ServiceEntityRepository
         }
     }
 
-    public function testEncodeSubscriber(){
-        UserSubscriber::encodePassword('aaa');
-    }
 
 
 }
