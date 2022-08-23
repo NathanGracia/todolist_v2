@@ -69,9 +69,9 @@ class TaskControllerTest extends WebTestCase
         // simulate $testUser being logged in
         $client->loginUser($testUser);
         $crawler = $client->request('GET', '/task/1/delete');
-        
+        $client->followRedirect();
         $this->assertResponseIsSuccessful();
-        //todo fix route
+
     } 
     public function testAccessDeniedDeleteAnoTask(){
         $client = static::createClient();
